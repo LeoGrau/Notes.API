@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "O:\\Web Dev\\NotesApp\\Notes.API\\Notes.API\\Notes.API.csproj": {}
+    "O:\\Github\\NotesApp\\Notes.API\\Notes.API\\Notes.API.csproj": {}
   },
   "projects": {
-    "O:\\Web Dev\\NotesApp\\Notes.API\\Notes.API\\Notes.API.csproj": {
+    "O:\\Github\\NotesApp\\Notes.API\\Notes.API\\Notes.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "O:\\Web Dev\\NotesApp\\Notes.API\\Notes.API\\Notes.API.csproj",
+        "projectUniqueName": "O:\\Github\\NotesApp\\Notes.API\\Notes.API\\Notes.API.csproj",
         "projectName": "Notes.API",
-        "projectPath": "O:\\Web Dev\\NotesApp\\Notes.API\\Notes.API\\Notes.API.csproj",
+        "projectPath": "O:\\Github\\NotesApp\\Notes.API\\Notes.API\\Notes.API.csproj",
         "packagesPath": "C:\\Users\\leona\\.nuget\\packages\\",
-        "outputPath": "O:\\Web Dev\\NotesApp\\Notes.API\\Notes.API\\obj\\",
+        "outputPath": "O:\\Github\\NotesApp\\Notes.API\\Notes.API\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\leona\\AppData\\Roaming\\NuGet\\NuGet.Config"

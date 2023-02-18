@@ -1,6 +1,6 @@
 namespace Notes.API.Security.Resources.Register;
 
-public class UserRegister
+public class RegisterUser
 {
     public String? Firstname { get; set; }
     public String? Lastname { get; set; }

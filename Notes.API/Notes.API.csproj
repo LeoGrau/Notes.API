@@ -31,7 +31,6 @@
       <Folder Include="Notes\Resources\Show" />
       <Folder Include="Notes\Resources\Update" />
       <Folder Include="Notes\Services\Communication" />
-      <Folder Include="Security\Resources\Authenticate" />
     </ItemGroup>
 
 </Project>

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "ErPQIN00IVy0QtZlokcrfEakeW6mP5VY4NDwdTDkdN3hYV/jmJV310nb7BF4N/KptA6yhgYMxl+qJoRFh1bA4g==",
+  "dgSpecHash": "RIu/3k935kaZ1n6KM8hXlN8Sb/adJeQlcN3T4/ijhT615Y1zmqhdmkPUOzM/08izq+pc0poZZFN33UUq37/3Yg==",
   "success": true,
-  "projectFilePath": "O:\\Web Dev\\NotesApp\\Notes.API\\Notes.API\\Notes.API.csproj",
+  "projectFilePath": "O:\\Github\\NotesApp\\Notes.API\\Notes.API\\Notes.API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\leona\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
     "C:\\Users\\leona\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.0\\automapper.extensions.microsoft.dependencyinjection.12.0.0.nupkg.sha512",
