@@ -13,7 +13,7 @@ public class BaseRepository<TEntity, TKey> : IBaseRepository<TEntity, TKey> wher
     public BaseRepository(AppDbContext appDbContext)
     {
         AppDbContext = appDbContext;
-        EntityDbSet = appDbContext.Set<TEntity>();
+        EntityDbSet = appDbContext.Set<TEntity>(); //Import to find a properly DbSet to do the job!
     }
     
     public async Task<IEnumerable<TEntity?>> ListAllAsync()
@@ -26,18 +26,25 @@ public class BaseRepository<TEntity, TKey> : IBaseRepository<TEntity, TKey> wher
         return await EntityDbSet.FindAsync(id);
     }
 
-    public async Task AddAsync(TEntity newEntityData)
+    public async Task AddAsync(TEntity entity)
     {
-        await EntityDbSet.AddAsync(newEntityData);
+        await EntityDbSet.AddAsync(entity);
     }
 
-    public void Update(TEntity newEntityData)
+    public void Update(TEntity entity)
     {
-        throw new NotImplementedException();
+        EntityDbSet.Update(entity);
     }
 
-    public void Remove(TEntity newEntityData)
+    public bool Exist(TKey id)
     {
-        throw new NotImplementedException();
+        if (EntityDbSet.Find(id) == null)
+            return true;
+        return false;
+    }
+
+    public void Remove(TEntity entity)
+    {
+        EntityDbSet.Remove(entity);
     }
 }

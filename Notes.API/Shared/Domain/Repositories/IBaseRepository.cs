@@ -7,4 +7,5 @@ public interface IBaseRepository<TEntity, TKey> where TEntity : class
     Task AddAsync(TEntity newEntityData);
     void Update(TEntity updatedEntityData);
     void Remove(TEntity toDeleteEntity);
+    bool Exist(TKey id);
 }

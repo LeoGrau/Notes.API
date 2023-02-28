@@ -1,5 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using Notes.API.Notes.Domain.Models;
+using Notes.API.Notes.Domain.Repositories;
+using Notes.API.Notes.Domain.Services;
+using Notes.API.Notes.Repositories;
+using Notes.API.Notes.Services;
 using Notes.API.Security.Domain.Repositories;
 using Notes.API.Security.Domain.Services;
 using Notes.API.Security.Models;
@@ -56,9 +61,15 @@ builder.Services.AddRouting(options => options.LowercaseUrls = true);
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 
+//Notes Service
+//---Notes---
+builder.Services.AddScoped<INoteService, NoteService>();
+builder.Services.AddScoped<INoteRepository, NoteRepository>();
+
 //Shared Services
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IBaseRepository<User, long>, BaseRepository<User, long>>();
+builder.Services.AddScoped<IBaseRepository<Note, long>, BaseRepository<Note, long>>();
 
 
 //Services
