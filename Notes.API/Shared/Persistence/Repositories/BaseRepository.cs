@@ -16,7 +16,7 @@ public class BaseRepository<TEntity, TKey> : IBaseRepository<TEntity, TKey> wher
         EntityDbSet = appDbContext.Set<TEntity>(); //Import to find a properly DbSet to do the job!
     }
     
-    public async Task<IEnumerable<TEntity?>> ListAllAsync()
+    public async Task<IEnumerable<TEntity>> ListAllAsync()
     {
         return await EntityDbSet.ToListAsync();
     }

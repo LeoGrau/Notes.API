@@ -5,6 +5,10 @@ using Notes.API.Notes.Domain.Repositories;
 using Notes.API.Notes.Domain.Services;
 using Notes.API.Notes.Repositories;
 using Notes.API.Notes.Services;
+using Notes.API.Security.Authorization.Handlers.Implementations;
+using Notes.API.Security.Authorization.Middleware;
+using Notes.API.Security.Authorization.Middleware.Handlers.Interfaces;
+using Notes.API.Security.Authorization.Settings;
 using Notes.API.Security.Domain.Repositories;
 using Notes.API.Security.Domain.Services;
 using Notes.API.Security.Models;
@@ -21,6 +25,11 @@ builder.Services.AddControllers();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+
+//AppSettings Configuration
+builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
+
+//OpenApi Configuration
 builder.Services.AddSwaggerGen(
     options =>
     {
@@ -58,6 +67,7 @@ builder.Services.AddDbContext<AppDbContext>(
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
 //Security Services
+builder.Services.AddScoped<IJwtHandler, JwtHandler>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 
@@ -78,6 +88,7 @@ builder.Services.AddAutoMapper(
     typeof(Notes.API.Notes.Mapping.ResourceToModelProfile),
     typeof(Notes.API.Security.Mapping.ModelToResourceProfile),
     typeof(Notes.API.Security.Mapping.ResourceToModelProfile));
+
 
 var app = builder.Build();
 
@@ -107,10 +118,17 @@ app.UseCors(corsPolicyBuilder =>
         .AllowAnyMethod()
         .AllowAnyHeader());
 
+
+app.UseAuthentication();
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
 app.MapControllers();
+
+//Configure JWT Handling 
+app.UseMiddleware<ErrorHandlerMiddleware>();
+app.UseMiddleware<JwtMiddleware>();
 
 app.Run();

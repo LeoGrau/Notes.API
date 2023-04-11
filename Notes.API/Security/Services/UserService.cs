@@ -1,9 +1,11 @@
+using AutoMapper;
+using Notes.API.Security.Authorization.Middleware.Handlers.Interfaces;
 using Notes.API.Security.Domain.Repositories;
 using Notes.API.Security.Domain.Services;
+using Notes.API.Security.Domain.Services.Communication;
+using Notes.API.Security.Domain.Services.Communication.Responses;
 using Notes.API.Security.Exceptions;
 using Notes.API.Security.Models;
-using Notes.API.Security.Repositories;
-using Notes.API.Security.Services.Communication;
 using Notes.API.Shared.Domain.Repositories;
 
 namespace Notes.API.Security.Services;
@@ -12,75 +14,84 @@ public class UserService : IUserService
 {
     private readonly IUserRepository _userRepository;
     private readonly IUnitOfWork _unitOfWork;
-    
-    public UserService(IUserRepository userRepository, IUnitOfWork unitOfWork)
+    private readonly IMapper _mapper;
+    private readonly IJwtHandler _jwtHandler;
+
+    public UserService(IUserRepository userRepository, IUnitOfWork unitOfWork, IMapper mapper, IJwtHandler jwtHandler)
     {
         _userRepository = userRepository;
         _unitOfWork = unitOfWork;
+        _mapper = mapper;
+        _jwtHandler = jwtHandler;
     }
 
-    public async Task<IEnumerable<User?>> ListAllUsersAsync()
+    public async Task<IEnumerable<User>> ListAllUsersAsync()
     {
         return await _userRepository.ListAllAsync();
     }
 
-    public async Task<UserResponse> FindUserAsync(long userId)
+    public async Task<User?> GetByIdAsync(long userId)
     {
         var existingUser = await _userRepository.FindAsync(userId);
-        if (existingUser == null)
-            return new UserResponse("User does not exist.");
-        return new UserResponse(existingUser);
+        if (existingUser == null) throw new KeyNotFoundException("User not found");
+        return existingUser;
     }
 
-    public async Task<UserResponse> AddAsync(User newUser)
+    public async Task<AuthResponse> AuthenticateAsync(AuthRequest authRequest)
     {
-        try
+        var user = await _userRepository.FindByEmailAsync(authRequest.Email!);
+        if (user == null)
         {
-            await _userRepository.AddAsync(newUser);
-            await _unitOfWork.CompleteAsync();
-            return new UserResponse(newUser);
+            Console.WriteLine("User is null");
         }
-        catch (Exception exception)
+        Console.WriteLine($"Password Hashed: {user.Password}");
+        if (user == null || !BCrypt.Net.BCrypt.Verify(authRequest.Password, user.Password))
         {
-            return new UserResponse($"{exception.Message}");
+            Console.WriteLine("Authentication Error");
+            throw new AppException("Username or password is incorrect");
         }
+        Console.WriteLine($"Request {authRequest.Email}, {authRequest.Password}");
+        Console.WriteLine($"Request {user.UserId}, {user.Firstname}");
+        Console.WriteLine("Authentication successful. About to generate token");
+        // Authentication successful
+        var response = _mapper.Map<AuthResponse>(user);
+        Console.WriteLine($"Response: {response.UserId}, {response.FirstName}, {response.LastName}, {response.Email}");
+        response.Token = _jwtHandler.GenerateToken(user);
+        Console.WriteLine($"Generated token is {response.Token}");
+        return response;
     }
 
-    public async Task<UserResponse> Update(long userId, User updatedUser)
+    public async Task RegisterAsync(RegisterRequest registerRequest)
     {
-        var existingUser = await _userRepository.FindAsync(userId);
-        if (existingUser == null)
-            return new UserResponse("User does not exist");
+        //Validate if email was already taken.
+        if (_userRepository.ExistByEmail(registerRequest.Email))
+            throw new AppException($"Email {registerRequest.Email} was already taken.");
         
-        existingUser.SetUser(updatedUser);
+        //Map request to User Object
+        var user = _mapper.Map<User>(registerRequest);
         
+        //Hash password
+        user.Password = BCrypt.Net.BCrypt.HashPassword(registerRequest.Password);
+        
+        //Save User
         try
         {
-            _userRepository.Update(existingUser);
+            await _userRepository.AddAsync(user);
             await _unitOfWork.CompleteAsync();
-            return new UserResponse(existingUser);
         }
         catch (Exception exception)
         {
-            return new UserResponse($"{exception.Message}");
+            throw new AppException($"An Error occurred while saving the user: {exception.Message}");
         }
     }
 
-    public async Task<UserResponse> Remove(long userId)
+    public Task UpdateAsync(long userId, UpdateRequest updateRequest)
     {
-        var existingUser = await _userRepository.FindAsync(userId);
-        if (existingUser == null)
-            return new UserResponse("User does not exist");
+        throw new NotImplementedException();
+    }
 
-        try
-        {
-            _userRepository.Remove(existingUser);
-            await _unitOfWork.CompleteAsync();
-            return new UserResponse(existingUser);
-        }
-        catch (Exception exception)
-        {
-            return new UserResponse($"{exception.Message}");
-        }
+    public Task DeleteAsync(long userId)
+    {
+        throw new NotImplementedException();
     }
 }

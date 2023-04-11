@@ -5,4 +5,6 @@ namespace Notes.API.Security.Domain.Repositories;
 
 public interface IUserRepository : IBaseRepository<User, long>
 {
+    bool ExistByEmail(String email);
+    Task<User?> FindByEmailAsync(String email);
 }

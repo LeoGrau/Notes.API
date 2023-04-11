@@ -116,3 +116,12 @@ O:\Github\NotesApp\Notes.API\Notes.API\obj\Debug\net6.0\refint\Notes.API.dll
 O:\Github\NotesApp\Notes.API\Notes.API\obj\Debug\net6.0\Notes.API.pdb
 O:\Github\NotesApp\Notes.API\Notes.API\obj\Debug\net6.0\Notes.API.genruntimeconfig.cache
 O:\Github\NotesApp\Notes.API\Notes.API\obj\Debug\net6.0\ref\Notes.API.dll
+O:\Github\NotesApp\Notes.API\Notes.API\bin\Debug\net6.0\BCrypt.Net-Next.dll
+O:\Github\NotesApp\Notes.API\Notes.API\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+O:\Github\NotesApp\Notes.API\Notes.API\bin\Debug\net6.0\Microsoft.IdentityModel.Abstractions.dll
+O:\Github\NotesApp\Notes.API\Notes.API\bin\Debug\net6.0\Microsoft.IdentityModel.JsonWebTokens.dll
+O:\Github\NotesApp\Notes.API\Notes.API\bin\Debug\net6.0\Microsoft.IdentityModel.Logging.dll
+O:\Github\NotesApp\Notes.API\Notes.API\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.dll
+O:\Github\NotesApp\Notes.API\Notes.API\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+O:\Github\NotesApp\Notes.API\Notes.API\bin\Debug\net6.0\Microsoft.IdentityModel.Tokens.dll
+O:\Github\NotesApp\Notes.API\Notes.API\bin\Debug\net6.0\System.IdentityModel.Tokens.Jwt.dll
