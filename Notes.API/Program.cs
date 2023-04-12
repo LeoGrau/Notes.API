@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Notes.API.Notes.Domain.Models;
@@ -50,6 +51,29 @@ builder.Services.AddSwaggerGen(
             }
         });
         options.EnableAnnotations();
+        options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+        {
+            In = ParameterLocation.Header,
+            Description = "Please enter a valid token",
+            Name = "Authorization",
+            Type = SecuritySchemeType.Http,
+            BearerFormat = "JWT",
+            Scheme = "Bearer"
+        });
+        options.AddSecurityRequirement(new OpenApiSecurityRequirement
+        {
+            {
+                new OpenApiSecurityScheme
+                {
+                    Reference = new OpenApiReference
+                    {
+                        Type=ReferenceType.SecurityScheme,
+                        Id="Bearer"
+                    }
+                },
+                new List<string>()
+            }
+        });
     });
 
 //Connection String
@@ -119,6 +143,9 @@ app.UseCors(corsPolicyBuilder =>
         .AllowAnyHeader());
 
 
+//Configure JWT Handling 
+app.UseMiddleware<ErrorHandlerMiddleware>();
+app.UseMiddleware<JwtMiddleware>();
 app.UseAuthentication();
 
 app.UseHttpsRedirection();
@@ -127,8 +154,5 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-//Configure JWT Handling 
-app.UseMiddleware<ErrorHandlerMiddleware>();
-app.UseMiddleware<JwtMiddleware>();
 
 app.Run();

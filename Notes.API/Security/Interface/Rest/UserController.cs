@@ -26,7 +26,7 @@ public class UserController : ControllerBase
         _mapper = mapper;
     }
     
-    [HttpGet]
+    [HttpGet, Authorize]
     public async Task<IEnumerable<UserResource>> GetAllUsers()
     {
         var result = await _userService.ListAllUsersAsync();
@@ -34,7 +34,7 @@ public class UserController : ControllerBase
         return mappedResult;
     }
     
-    [Authorization.Attributes.AllowAnonymous]
+    [AllowAnonymous]
     [HttpPost("sign-in")]
     public async Task<IActionResult> Authenticate(AuthRequest authRequest)
     {
@@ -42,7 +42,7 @@ public class UserController : ControllerBase
         return Ok(response);
     }
 
-    [Authorization.Attributes.AllowAnonymous]
+    [AllowAnonymous]
     [HttpPost("sign-up")]
     public async Task<IActionResult> Register(RegisterRequest registerRequest)
     {
